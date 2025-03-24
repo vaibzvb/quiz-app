@@ -12,7 +12,7 @@ const QuizList = () => {
   useEffect(() => {
     const fetchQuizzes = async () => {
       try {
-        const res = await axios.get('http://127.0.0.1:5000/get_quizes', {
+        const res = await axios.get('http://127.0.0.1:5050/get_quizes', {
           headers: { Authorization: `Bearer ${getAuthToken()}` }
         });
 

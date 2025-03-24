@@ -22,7 +22,7 @@ const EditQuestion = () => {
   useEffect(() => {
     const fetchQuestionDetails = async () => {
       try {
-        const res = await axios.get(`http://127.0.0.1:5000/getquestion/${quizId}/${questionId}`, {
+        const res = await axios.get(`http://127.0.0.1:5050/getquestion/${quizId}/${questionId}`, {
           headers: { Authorization: `Bearer ${getAuthToken()}` }
         });
         setQuestionDetails(res.data);
@@ -38,7 +38,7 @@ const EditQuestion = () => {
   const handleSubmit = async () => {
     try {
       await axios.put(
-        `http://127.0.0.1:5000/updatequestion/${quizId}/${questionId}`,
+        `http://127.0.0.1:5050/updatequestion/${quizId}/${questionId}`,
         questionDetails,
         { headers: { Authorization: `Bearer ${getAuthToken()}` } }
       );

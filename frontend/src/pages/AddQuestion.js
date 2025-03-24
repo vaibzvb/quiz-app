@@ -59,7 +59,7 @@ const AddQuestion = () => {
 
     try {
       await axios.post(
-        `http://127.0.0.1:5000/addquestion`,
+        `http://127.0.0.1:5050/addquestion`,
         data,
         { headers: { Authorization: `Bearer ${getAuthToken()}` } }
       );
