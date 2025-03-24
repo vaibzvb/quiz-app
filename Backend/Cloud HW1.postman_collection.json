@@ -1,0 +1,308 @@
+{
+	"info": {
+		"_postman_id": "04cae181-10f1-4a52-a078-751cf1823904",
+		"name": "Cloud HW1",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "42631045"
+	},
+	"item": [
+		{
+			"name": "test",
+			"request": {
+				"method": "GET",
+				"header": []
+			},
+			"response": []
+		},
+		{
+			"name": "logiin",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\"username\":\"vaibhav\",\n\"password\":\"qwe\"\n\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://127.0.0.1:5000/login",
+					"protocol": "http",
+					"host": [
+						"127",
+						"0",
+						"0",
+						"1"
+					],
+					"port": "5000",
+					"path": [
+						"login"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "signup",
+			"request": {
+				"auth": {
+					"type": "noauth"
+				},
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"username\":\"guest\",\n    \"password\":\"pwd\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://127.0.0.1:5000/signup",
+					"protocol": "http",
+					"host": [
+						"127",
+						"0",
+						"0",
+						"1"
+					],
+					"port": "5000",
+					"path": [
+						"signup"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "create_quiz",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJmcmVzaCI6ZmFsc2UsImlhdCI6MTc0MDYxNjE2OSwianRpIjoiNDcyMWU5ZDQtMmZmMC00ZWYxLWFjMDgtODI3YTg1ZGJmMTYyIiwidHlwZSI6ImFjY2VzcyIsInN1YiI6Imd1ZXN0MSIsIm5iZiI6MTc0MDYxNjE2OSwiY3NyZiI6IjczNjk3NDc2LTMxN2ItNDdhMi05Y2RjLWMxN2Y0NDA1MDE4MSIsImV4cCI6MTc0MDYxNzA2OX0.c9Q-Nb00AbZSDGylVlpwoBepJ0_4pZGKqY7BXOR2o5o",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"quiz_name\": \"Captial Cities\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://127.0.0.1:5000/create_quiz",
+					"protocol": "http",
+					"host": [
+						"127",
+						"0",
+						"0",
+						"1"
+					],
+					"port": "5000",
+					"path": [
+						"create_quiz"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "get_quiz",
+			"request": {
+				"auth": {
+					"type": "noauth"
+				},
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"username\":\"guest\",\n    \"password\":\"pwd\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://127.0.0.1:5000/signup",
+					"protocol": "http",
+					"host": [
+						"127",
+						"0",
+						"0",
+						"1"
+					],
+					"port": "5000",
+					"path": [
+						"signup"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "addquestion",
+			"request": {
+				"auth": {
+					"type": "noauth"
+				},
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"username\":\"guest\",\n    \"password\":\"pwd\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://127.0.0.1:5000/addquestion",
+					"protocol": "http",
+					"host": [
+						"127",
+						"0",
+						"0",
+						"1"
+					],
+					"port": "5000",
+					"path": [
+						"addquestion"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "getquestions",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"auth": {
+					"type": "noauth"
+				},
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"username\":\"guest\",\n    \"password\":\"pwd\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://127.0.0.1:5000/getquestions",
+					"protocol": "http",
+					"host": [
+						"127",
+						"0",
+						"0",
+						"1"
+					],
+					"port": "5000",
+					"path": [
+						"getquestions"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "updatequestion",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJmcmVzaCI6ZmFsc2UsImlhdCI6MTc0MDYxNjE2OSwianRpIjoiNDcyMWU5ZDQtMmZmMC00ZWYxLWFjMDgtODI3YTg1ZGJmMTYyIiwidHlwZSI6ImFjY2VzcyIsInN1YiI6Imd1ZXN0MSIsIm5iZiI6MTc0MDYxNjE2OSwiY3NyZiI6IjczNjk3NDc2LTMxN2ItNDdhMi05Y2RjLWMxN2Y0NDA1MDE4MSIsImV4cCI6MTc0MDYxNzA2OX0.c9Q-Nb00AbZSDGylVlpwoBepJ0_4pZGKqY7BXOR2o5o",
+							"type": "string"
+						}
+					]
+				},
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"q_no\":2,\n    \"question\":\"Captial of USA\",\n    \"option1\":\"Washington DC\",\n    \"option2\":\"SFO\",\n    \"answer\":\"SFO\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://127.0.0.1:5000/updatequestion",
+					"protocol": "http",
+					"host": [
+						"127",
+						"0",
+						"0",
+						"1"
+					],
+					"port": "5000",
+					"path": [
+						"updatequestion"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Delete",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJmcmVzaCI6ZmFsc2UsImlhdCI6MTc0MDYxNjE2OSwianRpIjoiNDcyMWU5ZDQtMmZmMC00ZWYxLWFjMDgtODI3YTg1ZGJmMTYyIiwidHlwZSI6ImFjY2VzcyIsInN1YiI6Imd1ZXN0MSIsIm5iZiI6MTc0MDYxNjE2OSwiY3NyZiI6IjczNjk3NDc2LTMxN2ItNDdhMi05Y2RjLWMxN2Y0NDA1MDE4MSIsImV4cCI6MTc0MDYxNzA2OX0.c9Q-Nb00AbZSDGylVlpwoBepJ0_4pZGKqY7BXOR2o5o",
+							"type": "string"
+						}
+					]
+				},
+				"method": "DELETE",
+				"header": [],
+				"url": {
+					"raw": "http://127.0.0.1:5000/deletequestion?q_no=2",
+					"protocol": "http",
+					"host": [
+						"127",
+						"0",
+						"0",
+						"1"
+					],
+					"port": "5000",
+					"path": [
+						"deletequestion"
+					],
+					"query": [
+						{
+							"key": "q_no",
+							"value": "2"
+						}
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}
