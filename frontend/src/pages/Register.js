@@ -14,7 +14,7 @@ const Register = () => {
   const handleRegister = async (e) => {
     e.preventDefault();
     try {
-      await axios.post('http://127.0.0.1:5050/register', user);
+      await axios.post('http://3.145.190.141:5050/register', user);
       alert('Registration successful');
       navigate('/login');
     } catch (error) {
