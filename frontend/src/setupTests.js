@@ -3,3 +3,10 @@
 // expect(element).toHaveTextContent(/react/i)
 // learn more: https://github.com/testing-library/jest-dom
 import '@testing-library/jest-dom';
+
+// Mock the auth token functions
+jest.mock('./utils/auth', () => ({
+  getAuthToken: jest.fn(() => 'mock-token'),
+  setAuthToken: jest.fn(),
+  removeAuthToken: jest.fn()
+}));

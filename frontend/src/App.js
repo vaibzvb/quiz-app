@@ -33,6 +33,7 @@ import AddQuestion from './pages/AddQuestion';
 import QuizDetail from './pages/QuizDetails';
 import ProtectedRoute from './components/ProtectedRoute';
 import NavBar from './utils/navbar';
+import TakeQuiz from './pages/TakeQuiz';
 
 function App() {
   return (
@@ -47,6 +48,7 @@ function App() {
             <Route path="/quiz/:quizId" element={<ProtectedRoute><QuizDetail /></ProtectedRoute>} />
             <Route path="/quiz/:quizId/add-question" element={<ProtectedRoute><AddQuestion /></ProtectedRoute>} />
             {/* <Route path="/quiz/:quizId/edit-question/:question" element={<ProtectedRoute><AddQuestion /></ProtectedRoute>} /> */}
+            <Route path="/take-quiz" element={<ProtectedRoute><TakeQuiz /></ProtectedRoute>} />
 
           </Routes>
         </Router>

@@ -1,4 +1,4 @@
-name: CI - Build and Push Backend & Frontend to Docker Hub
+name: CI - Build, Test and Push Backend & Frontend to Docker Hub
 
 on:
   push:
@@ -6,13 +6,48 @@ on:
       - cloud-new
 
 jobs:
-  build-and-push:
+  test-and-build:
     runs-on: ubuntu-latest
 
     steps:
       - name: Checkout code
         uses: actions/checkout@v3
 
+      # --- Backend Tests ---
+      - name: Set up Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.9'
+
+      - name: Install backend dependencies
+        run: |
+          cd backend
+          pip install -r requirements.txt
+          pip install pytest
+
+      - name: Run backend tests
+        run: |
+          cd backend
+          pytest tests/
+
+      # --- Frontend Tests ---
+      - name: Set up Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: '16'
+
+      - name: Install frontend dependencies
+        run: |
+          cd frontend
+          npm install
+          npm install --save-dev @testing-library/react @testing-library/jest-dom
+
+      - name: Run frontend tests
+        run: |
+          cd frontend
+          npm test -- --watchAll=false
+
+      # --- Docker Build and Push ---
       - name: Set up Docker Buildx
         uses: docker/setup-buildx-action@v3
 
@@ -22,13 +57,11 @@ jobs:
           username: ${{ secrets.DOCKER_USERNAME }}
           password: ${{ secrets.DOCKER_PASSWORD }}
 
-      # --- Backend Image Build + Push ---
       - name: Build and push backend image
         run: |
           docker build -t vaibzvb/quiz-app-backend ./backend
           docker push vaibzvb/quiz-app-backend
 
-      # --- Frontend Image Build + Push ---
       - name: Build and push frontend image
         run: |
           docker build -t vaibzvb/quiz-app-frontend ./frontend

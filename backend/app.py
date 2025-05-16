@@ -5,6 +5,7 @@ from flask_jwt_extended import JWTManager, create_access_token, jwt_required
 from flask_cors import CORS
 from flask_cors import cross_origin
 from datetime import timedelta
+import json
 
 app = Flask(__name__)
 CORS(app)  
@@ -33,7 +34,9 @@ class Question(db.Model):
     question = db.Column(db.String, nullable=False)
     option1 = db.Column(db.String, nullable=False)
     option2 = db.Column(db.String, nullable=False)
-    answer = db.Column(db.String, nullable=False)
+    option3 = db.Column(db.String, nullable=True)
+    option4 = db.Column(db.String, nullable=True)
+    answers = db.Column(db.String, nullable=False)  # Store as JSON string
 
 def create_tables():
     with app.app_context():
@@ -133,22 +136,34 @@ def get_quizzes():
 @jwt_required()
 def add_question():
     try:
-        print(request.data)
-        quiz_id = request.get_json().get("quiz_id")
-        question = request.get_json().get("question")
-        option1 = request.get_json().get("option1") 
-        option2 = request.get_json().get("option2") 
-        answer = request.get_json().get("answer")
+        data = request.get_json()
+        quiz_id = data.get("quiz_id")
+        question = data.get("question")
+        option1 = data.get("option1") 
+        option2 = data.get("option2") 
+        option3 = data.get("option3")
+        option4 = data.get("option4")
+        answers = data.get("answers")  # This should be a list
 
-        if not quiz_id or not question or not option1 or not option2 or not answer:
-            return jsonify({"error": "All fields (question, option1, option2, answer) are required!"})
+        if not quiz_id or not question or not option1 or not option2 or not answers:
+            return jsonify({"error": "All fields (question, option1, option2, answers) are required!"})
 
+        if not isinstance(answers, list) or len(answers) == 0:
+            return jsonify({"error": "Answers must be a non-empty list!"})
 
-        new_question = Question(quiz_id=quiz_id,question=question, option1=option1, option2=option2, answer=answer)
+        new_question = Question(
+            quiz_id=quiz_id,
+            question=question,
+            option1=option1,
+            option2=option2,
+            option3=option3,
+            option4=option4,
+            answers=json.dumps(answers)  # Store as JSON string
+        )
         db.session.add(new_question)
         db.session.commit()
 
-        return jsonify({"success":True,"message":"Question created succesfully "})
+        return jsonify({"success":True,"message":"Question created successfully"})
     except Exception as e:
         db.session.rollback()
         return jsonify({"error":str(e),"success": False})
@@ -158,31 +173,27 @@ def add_question():
 @cross_origin() 
 @jwt_required()
 def get_question():
-    print(request)
     try:
-
         quiz_id = request.args.get("quiz_id")
-        
-
         if not quiz_id:
             return jsonify({"error": "quiz_id parameter is required!"})
         
         questions = Question.query.filter_by(quiz_id=quiz_id).all()
-
         if not questions:
             return jsonify({"error": "No questions found "})
 
-
         question_bank=[]
         for question in questions:
-            question_bank.append({"Question Number" : question.q_no,
-                                "Question": question.question,
-                                "Option1":question.option1,
-                                "Option2": question.option2,
-                                "Answer": question.answer
-                                })
-        return question_bank
-        return jsonify({"Questions":question_bank,"success":True})
+            question_bank.append({
+                "Question Number": question.q_no,
+                "Question": question.question,
+                "Option1": question.option1,
+                "Option2": question.option2,
+                "Option3": question.option3,
+                "Option4": question.option4,
+                "Answers": json.loads(question.answers)  # Parse JSON string to list
+            })
+        return jsonify({"Questions": question_bank, "success": True})
     except Exception as e:
         return jsonify({"error":str(e),"success": False,})
     

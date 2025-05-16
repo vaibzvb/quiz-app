@@ -27,10 +27,10 @@ const QuizDetail = () => {
   useEffect(() => {
     const fetchQuizDetails = async () => {
       try {
-        const res = await axios.get(`http://3.145.190.141:5050/getquestions?quiz_id=${quizId}`, {
+        const res = await axios.get(`http://10.0.0.33:5050/getquestions?quiz_id=${quizId}`, {
           headers: { Authorization: `Bearer ${getAuthToken()}` },
         });
-        setQuiz(res.data);
+        setQuiz(res.data.Questions || []);
       } catch (error) {
         console.error('Error fetching quiz details', error);
       }
@@ -45,7 +45,7 @@ const QuizDetail = () => {
 
     try {
       // Use the stored questionId to delete the selected question
-      await axios.delete(`http://3.145.190.141:5050/deletequestion?q_no=${questionToDelete["Question Number"]}`, {
+      await axios.delete(`http://10.0.0.33:5050/deletequestion?q_no=${questionToDelete["Question Number"]}`, {
         headers: { Authorization: `Bearer ${getAuthToken()}` },
       });
       setOpenEditDialog(false);
@@ -69,7 +69,7 @@ const QuizDetail = () => {
       const { question, option1, option2, answer } = editedQuestion;
 
       // Use the selected question's ID for the update request
-      await axios.put(`http://3.145.190.141:5050/updatequestion?q_no=${selectedQuestion["Question Number"]}`, {
+      await axios.put(`http://10.0.0.33:5050/updatequestion?q_no=${selectedQuestion["Question Number"]}`, {
         question,       // Updated question text
         option1,        // Updated option 1
         option2,        // Updated option 2
@@ -116,6 +116,10 @@ const QuizDetail = () => {
                     {question.Option4 && <FormControlLabel value={question.Option4} control={<Radio />} label={question.Option4} />}
                   </RadioGroup>
                 </FormControl>
+                {/* Display all correct answers */}
+                <Typography variant='body2' sx={{ mt: 1 }} color="success.main">
+                  Correct Answer(s): {Array.isArray(question.Answers) ? question.Answers.join(', ') : question.Answers}
+                </Typography>
                 <Button variant="outlined" color="secondary" onClick={() => { 
                   setSelectedQuestion(question); 
                   setEditedQuestion({

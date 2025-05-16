@@ -3,7 +3,7 @@ import axios from 'axios';
 import { getAuthToken } from '../utils/auth';
 import { useNavigate } from 'react-router-dom';
 import NavBar from '../utils/navbar';
-import { Box, Card, CardContent, List, ListItem, ListItemText, Typography } from '@mui/material';
+import { Box, Card, CardContent, List, ListItem, ListItemText, Typography, Button } from '@mui/material';
 
 const QuizList = () => {
   const [quizzes, setQuizzes] = useState([]);
@@ -12,7 +12,7 @@ const QuizList = () => {
   useEffect(() => {
     const fetchQuizzes = async () => {
       try {
-        const res = await axios.get('http://3.145.190.141:5050/get_quizes', {
+        const res = await axios.get('http://10.0.0.33:5050/get_quizes', {
           headers: { Authorization: `Bearer ${getAuthToken()}` }
         });
 
@@ -34,6 +34,9 @@ const QuizList = () => {
       <NavBar />
       <Box sx={{ display: 'flex', mx: 'auto', width: '90%', my: '2%', flexDirection: 'column', gap: 2 }}>
         <Typography variant='h5'>Quizzes</Typography>
+        <Button variant="contained" color="primary" sx={{ width: 200, mb: 2 }} onClick={() => navigate('/take-quiz')}>
+          Take Quiz
+        </Button>
         <List>
           {quizzes.map((quiz) => (
             <Card key={quiz.quiz_id} sx={{ display: 'flex', mx: 'auto', width: '90%', my: '2%', flexDirection: 'column', gap: 2 }}>

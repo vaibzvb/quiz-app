@@ -1,7 +1,7 @@
-Backend/__pycache__
-Backend/venv
-
+bckend/__pycache__
+venv_new
 frontend/node_modules
+
 
 
 # # See https://help.github.com/articles/ignoring-files/ for more about ignoring files.

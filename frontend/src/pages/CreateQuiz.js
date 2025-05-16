@@ -12,7 +12,7 @@ const CreateQuiz = () => {
   const handleCreateQuiz = async (e) => {
     e.preventDefault();
     try {
-      const response = await axios.post('http://3.145.190.141:5050/create_quiz', 
+      const response = await axios.post('http://10.0.0.33:5050/create_quiz', 
         { quiz_name: quizName }, 
         {
           headers: { Authorization: `Bearer ${getAuthToken()}` },

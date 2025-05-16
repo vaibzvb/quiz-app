@@ -16,7 +16,11 @@ const AddQuestion = () => {
   // Handle input change for question text and choices
   const handleInputChange = (e, index, field) => {
     const updatedChoices = [...question.choices];
-    updatedChoices[index][field] = e.target.value;
+    if (field === 'is_correct') {
+      updatedChoices[index][field] = e.target.checked;
+    } else {
+      updatedChoices[index][field] = e.target.value;
+    }
     setQuestion({ ...question, choices: updatedChoices });
   };
 
@@ -41,25 +45,34 @@ const AddQuestion = () => {
       return;
     }
 
+    // Find all correct answers
+    const correctChoices = question.choices.filter(choice => choice.is_correct);
+    if (correctChoices.length === 0) {
+      console.error('Please select at least one correct answer');
+      return;
+    }
+
     let data = {
       quiz_id: quizId,
       question: question.text,
       option1: question.choices[0].text,
       option2: question.choices[1].text,
+      answers: correctChoices.map(choice => choice.text)
     };
 
-    // Loop through choices to find the correct answer
-    question.choices.forEach((options) => {
-      if (options.is_correct) {
-        data['answer'] = options.text;
-      }
-    });
+    // Add additional options if they exist
+    if (question.choices.length > 2) {
+      data.option3 = question.choices[2].text;
+    }
+    if (question.choices.length > 3) {
+      data.option4 = question.choices[3].text;
+    }
 
-    console.log(data);
+    console.log('Submitting data:', data);
 
     try {
       await axios.post(
-        `http://3.145.190.141:5050/addquestion`,
+        `http://10.0.0.33:5050/addquestion`,
         data,
         { headers: { Authorization: `Bearer ${getAuthToken()}` } }
       );

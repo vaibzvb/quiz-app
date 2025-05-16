@@ -14,7 +14,7 @@ const Login = () => {
   const handleLogin = async (e) => {
     e.preventDefault();
     try {
-      const res = await axios.post('http://3.145.190.141:5050/login', credentials);
+      const res = await axios.post('http://10.0.0.33:5050/login', credentials);
       console.log(JSON.stringify(res.data['JWT_token']))
       setAuthToken(res.data.JWT_token);
       navigate('/');
