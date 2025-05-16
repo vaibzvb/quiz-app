@@ -45,7 +45,7 @@ This project is hosted in a private repository to comply with academic integrity
 - JWT tokens were added to headers where needed (`Authorization: Bearer <token>`).
 - Test cases include register, login, create quiz, add/edit/delete question.
 - Unit test cases were created using pytest and exceuted
-  ![API Test Screenshot](assets/api-testing-postman.png)
+  ![API Test Screenshot](Screenshot.png)
 
 
 ---
