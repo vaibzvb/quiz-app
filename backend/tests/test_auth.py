@@ -1,6 +1,5 @@
 import pytest
-from app import app, db
-from app.models import User
+from app import app, db, User_Table
 
 @pytest.fixture
 def client():
@@ -18,7 +17,7 @@ def test_register_user(client):
         'password': 'testpass'
     })
     assert response.status_code == 201
-    assert b'User created successfully' in response.data
+    assert response.json["message"] == "user added succesfully "
 
 def test_login_user(client):
     # First register a user
@@ -33,4 +32,4 @@ def test_login_user(client):
         'password': 'testpass'
     })
     assert response.status_code == 200
-    assert 'token' in response.json 
+    assert 'JWT_token' in response.json 

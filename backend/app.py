@@ -56,11 +56,11 @@ def signup():
         db.session.add(newUser)
         db.session.commit()
 
-        return jsonify({"success":True,"message":"user added succesfully "})
+        return jsonify({"success":True,"message":"user added succesfully "}), 201
 
     except Exception as e:
         db.session.rollback()
-        return jsonify({"error":str(e),"success": False})
+        return jsonify({"error":str(e),"success": False}), 400
     
 @app.route('/login', methods=['POST'])
 @cross_origin() 
@@ -70,14 +70,15 @@ def login():
         password = request.get_json().get("password")
 
         user = User_Table.query.filter_by(username=username).first()
-        if password == user.pwd:
+        if user and password == user.pwd:
             JWT_token = create_access_token(identity=username)
-            return jsonify({"success":True,"JWT_token":JWT_token})
+            if isinstance(JWT_token, bytes):
+                JWT_token = JWT_token.decode('utf-8')
+            return jsonify({"success":True,"JWT_token":JWT_token}), 200
         else:
-            return jsonify({"success":False,"error":"Either uname or password is incorrect"})
-        
+            return jsonify({"success":False,"error":"Either uname or password is incorrect"}), 200
     except Exception as e:
-        return jsonify({"error":str(e),"success": False})
+        return jsonify({"error":str(e),"success": False}), 200
     
 
 
@@ -145,11 +146,11 @@ def add_question():
         option4 = data.get("option4")
         answers = data.get("answers")  # This should be a list
 
-        if not quiz_id or not question or not option1 or not option2 or not answers:
-            return jsonify({"error": "All fields (question, option1, option2, answers) are required!"})
+        if not quiz_id or not question or not option1 or not option2 or answers is None:
+            return jsonify({"error": "All fields (question, option1, option2, answers) are required!"}), 400
 
         if not isinstance(answers, list) or len(answers) == 0:
-            return jsonify({"error": "Answers must be a non-empty list!"})
+            return jsonify({"error": "Answers must be a non-empty list!"}), 400
 
         new_question = Question(
             quiz_id=quiz_id,
@@ -163,10 +164,10 @@ def add_question():
         db.session.add(new_question)
         db.session.commit()
 
-        return jsonify({"success":True,"message":"Question created successfully"})
+        return jsonify({"success":True,"message":"Question created successfully"}), 200
     except Exception as e:
         db.session.rollback()
-        return jsonify({"error":str(e),"success": False})
+        return jsonify({"error":str(e),"success": False}), 400
     
 
 @app.route("/getquestions", methods=["GET"])
@@ -176,11 +177,11 @@ def get_question():
     try:
         quiz_id = request.args.get("quiz_id")
         if not quiz_id:
-            return jsonify({"error": "quiz_id parameter is required!"})
+            return jsonify({"error": "quiz_id parameter is required!"}), 400
         
         questions = Question.query.filter_by(quiz_id=quiz_id).all()
         if not questions:
-            return jsonify({"error": "No questions found "})
+            return jsonify({"error": "No questions found "}), 400
 
         question_bank=[]
         for question in questions:
@@ -193,9 +194,9 @@ def get_question():
                 "Option4": question.option4,
                 "Answers": json.loads(question.answers)  # Parse JSON string to list
             })
-        return jsonify({"Questions": question_bank, "success": True})
+        return jsonify({"Questions": question_bank, "success": True}), 200
     except Exception as e:
-        return jsonify({"error":str(e),"success": False,})
+        return jsonify({"error":str(e),"success": False,}), 400
     
 
 
